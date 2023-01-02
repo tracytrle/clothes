@@ -1,0 +1,51 @@
+
+application {
+  config {
+    baseName clothes,
+    applicationType monolith,
+    packageName com.tracy,
+    authenticationType jwt,
+    prodDatabaseType postgresql,
+    clientFramework react,
+    devDatabaseType postgresql,
+    serverPort 8998,
+    buildTool gradle,
+    languages [en],
+  }
+  // Set pagination options
+  paginate all with pagination
+
+  // Set service options to all except few
+  service all with serviceImpl
+
+  // include all entities
+  entities * 
+}
+
+entity Category {
+  name String required unique
+  description String
+  createdDate Instant
+  lastModifiedDate Instant
+  createdBy Long  // Id of users 
+  lastModifiedBy Long // Id of users
+}
+
+entity Product {
+  name String required unique
+  createdDate Instant
+  productSize String required unique
+  price Double
+  gender String required unique
+  color String required unique
+  lastModifiedDate Instant
+  createdBy Long
+  lastModifiedBy Long
+}
+
+
+
+relationship OneToMany {
+  Category{products} to Product{category required}
+}
+    
